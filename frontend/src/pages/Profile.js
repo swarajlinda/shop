@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context, server } from "..";
 import { Link, useNavigate,  } from "react-router-dom";
 import axios from "axios";
@@ -7,7 +7,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from "react-redux";
 
-import {logout} from "../slices/authActions.js"
 
 
 
@@ -17,14 +16,29 @@ import {logout} from "../slices/authActions.js"
 function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  console.log(isAuthenticated)
+  const {token} = useSelector((state)=>state.auth)
 
- if(!isAuthenticated){
-  navigate('/')
- }
- 
+  console.log(token)
+
+  //use effect for check the user 
+  useEffect(()=>{
+    !token && navigate('/')
+
+    const localToken = localStorage.getItem("token")
+    if(localToken){
+      dispatch({
+        type:"login",
+        payload: localToken
+      })
+    }
+    
+  },[])
+
+
+
+
+
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -40,10 +54,10 @@ function Profile() {
 
       console.log("Request was successful:", data);
 
-      const {success, message, user} = data
-      dispatch(logout(user))
+      const {success, message} = data
 
       if(success){
+        localStorage.removeItem('token')
         handleSuccess(message);
         setTimeout(() => {
           navigate("/");

@@ -15,6 +15,7 @@ export const sendCookie =(user, res, message, statusCode = 200)=>{
 				expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
 				httpOnly: true,
 			};
+			
 			res.cookie("token", token, options).status(statusCode).json({
 				success: true,
 				token,

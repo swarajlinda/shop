@@ -1,27 +1,25 @@
-// authReducer.js
-const initialState = {
-    isAuthenticated: false,
-    user: null,
-  };
-  
-  const authReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'LOGIN':
-        return {
-          ...state,
-          isAuthenticated: true,
-          user: action.payload,
-        };
-      case 'LOGOUT':
-        return {
-          ...state,
-          isAuthenticated: false,
-          user: null,
-        };
-      default:
-        return state;
-    }
-  };
-  
-  export default authReducer;
-  
+import {createReducer} from "@reduxjs/toolkit"
+
+
+const initialState ={
+    loading:false,
+    isAuthenticated:false,
+    token:localStorage.getItem("token")? JSON.parse(localStorage.getItem("token")) : null,
+   
+}
+
+
+export const authReducer = createReducer(initialState,{
+    login:(state, action) =>{
+       state.isAuthenticated = true
+       state.loading = true
+       state.token = action.payload
+    },
+
+    logout:(state)=>{
+        state.isAuthenticated = false
+        state.token = null
+    },
+
+   
+})
