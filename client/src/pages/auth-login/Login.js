@@ -4,34 +4,55 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../../actions/LoginAction";
 import { loadUser } from "../../actions/LoadUserAction";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
  const dispatch = useDispatch()
  const navigate = useNavigate()
 
- const {isAuthenticate} = useSelector((state)=>state.loadUser)
+ const {isAuthenticate, user} = useSelector((state)=>state.loadUser)
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin =  (e) => {
     e.preventDefault();
-    
-    // You can add your login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
+     
+    if(!email){
+      toast.error("Please Enter Email", {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    }
+    if(!password){
+      toast.error("Please Enter Password", {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    }
 
-    dispatch(login(email, password)).then(()=> dispatch(loadUser()))
+    try {
+      // You can add your login logic here
+      console.log('Email:', email);
+      console.log('Password:', password);
+  
+      dispatch(login(email, password)).then(()=> dispatch(loadUser()))
+      
+    } catch (error) {
+      toast.error(error, {
+        position: toast.POSITION.TOP_RIGHT
+    });
+    }
+    
   };
 
- 
+//  if user is exist then 
  if(isAuthenticate) {
+  toast.success(`Welcome back ${user.name}`, {
+    position: toast.POSITION.TOP_RIGHT
+});
   navigate("../dashboard")
  }
-
-
-
-  
 
   return <>
         <div className="min-h-screen min-w-fit flex items-center justify-center bg-gray-50">
@@ -73,6 +94,7 @@ const Login = () => {
           </button>
         </div>
       </form>
+      <ToastContainer/>
     </div>
   </>;
 };

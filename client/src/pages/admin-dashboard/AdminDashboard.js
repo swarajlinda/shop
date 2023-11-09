@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/admin-navbar/Navbar";
-import { Link, Outlet, useNavigate, useNavigation } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../component/admin-sidebar/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import { loadUser } from "../../actions/LoadUserAction";
+import {useSelector } from "react-redux";
 
 const AdminDashboard = () => {
  
@@ -14,7 +13,7 @@ const AdminDashboard = () => {
 
 
  
-  
+  // if user is not exist 
   !isAuthenticate && navigate('../login')
 
 

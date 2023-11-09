@@ -1,8 +1,11 @@
 import React from 'react'
+import StockInventary from '../../component/admin-stock-inventary/StockInventary'
 
 function AddNewStock() {
   return (
-    <div>AddNewStock</div>
+    <div>
+      <StockInventary/>
+    </div>
   )
 }
 

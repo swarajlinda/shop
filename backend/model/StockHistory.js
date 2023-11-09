@@ -59,4 +59,4 @@ const stockSchema = new mongoose.Schema({
 }
 )
 
-export const Stock = mongoose.model("stocks", stockSchema);
+export const StockHistory = mongoose.model("stocks_history", stockSchema);
