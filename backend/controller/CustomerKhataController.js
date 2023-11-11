@@ -1,6 +1,7 @@
 import { BuyerDetails } from "../model/buyerDetails.js";
 import { KhataInvoices } from "../model/customerKhata.js";
 import { ProductDetails } from "../model/itemsDetails.js";
+import {Stock} from "../model/stock.js"
 
 
 
@@ -14,18 +15,42 @@ export const newKhataInvoice = async (req, res) => {
     console.log(id)
 
     try {
-        const {
-          invoiceId,
-          paidAmount,
-          paymentMode,
-          items,
-          quantities,
-          prices,
-          totalAmount,
-        } = req.body;
-    
+      const {invoiceId, itemList, totalAmount, paidAmount, dueAmount, paymentMode } =
+      req.body;
+
+      console.log(req.body)
+    //validation
+    if (!id) {
+      return res.status(400).json({
+        success: false,
+        message: "ID is empty",
+      });
+    }
+
+    //update stock
+    for (const item of itemList) {
+      const stockId = item.stockId;
+      const productQnty = item.itemQnty;
+
+      // Check if stock with the given stockId exists
+      const foundStock = await Stock.findOne({ stockId });
+
+      if (foundStock) {
+        // Parse the productQnty to ensure it's a number
+        const productQntyNumber = parseInt(productQnty, 10);
+
+        // Update the productQnty in the foundStock
+        foundStock.productQnty -= productQntyNumber;
+
+        // Save the updated stock
+        await foundStock.save();
+      } else {
+        console.error(`Stock with stockId ${stockId} not found.`);
+      }
+    }
+
         // Check all the fields and if items, quantities, prices are arrays
-        if (!invoiceId || !totalAmount) {
+        if (!invoiceId || !totalAmount || !paymentMode) {
           return res.status(400).json({
             success: false,
             message:
@@ -50,18 +75,20 @@ export const newKhataInvoice = async (req, res) => {
                 message: "user not found"
             })
         }
+
+        console.log("working 12")
+
+        
     
         // // Create entry in the database
         const khataInvoice = await KhataInvoices.create({
           invoiceId,
-          paidAmount,
-          dueAmount:dueAmt,
-          paymentMode,
-          items,
-          quantities,
-          prices,
+          itemList,
           totalAmount,
-          buyerDetails: user._id
+          paidAmount,
+          dueAmount,
+          paymentMode,
+          buyerId: user._id
         });
     
         //find invoice
@@ -215,7 +242,7 @@ export const allIKhataInvoice =async(req, res)=>{
         console.log(id)
     
         //find all the task in db
-        const khataInvoice = await KhataInvoices.find({buyerDetails:id})
+        const khataInvoice = await KhataInvoices.find({buyerId:id})
 
         // console.log(items)
        

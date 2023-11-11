@@ -1,36 +1,44 @@
 import mongoose  from "mongoose";
 
+// Define a schema for the objects inside the array
+const itemDetailsSchema = new mongoose.Schema({
+    itemName: String,
+    itemPrice: Number,
+    itemQnty: Number,
+    itemTotalAmt: Number,
+    stockId: String,
+  });
+
 const itemSchema =  mongoose.Schema({
-    itemName:{
-        type:String,
-        required: true,
-        trim:true
-    },
-    itemQty:{
-        type:Number,
-        required:true
-    },
-    itemPrice:{
-        type:Number,
-        required: true
-    },
-    itemUnit:{
+    invoiceId:{
         type:String,
         required:true
     },
-    itemTotalAmt:{
+    itemList:[itemDetailsSchema],
+    totalAmount:{
         type:Number,
         required:true
+    },
+    paidAmount:{
+        type:Number,
+        required:true 
+    },
+    dueAmount:{
+        type:Number,
+        required:true 
+    },
+    paymentMode:{
+        type:String,
+        required:true 
     },
     buyerId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"buyerdetails",
         required:true
     },
-    createdAt:{
-        type:Date,
-        default: Date.now,
-    }
-})
+},{
+    timestamps: true 
+}
+)
 
-export const ProductDetails = mongoose.model("product_details", itemSchema);
+export const ProductDetails = mongoose.model("khata_product_details", itemSchema);

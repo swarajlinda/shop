@@ -1,7 +1,8 @@
 import { GenerateInvoice } from "../model/invoice.js";
+import { Stock } from "../model/stock.js";
 
 export const newInvoice = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   try {
     const {
@@ -11,9 +12,7 @@ export const newInvoice = async (req, res) => {
       phoneNumber,
       paidAmount,
       paymentMode,
-      items,
-      quantities,
-      prices,
+      itemList,
       totalAmount,
     } = req.body;
 
@@ -32,7 +31,29 @@ export const newInvoice = async (req, res) => {
       dueAmt = totalAmount - paidAmount;
     }
     console.log("working");
-    console.log(dueAmt);
+    // console.log(dueAmt);
+
+    //update stock
+    for (const item of itemList) {
+      const stockId = item.stockId;
+      const productQnty = item.itemQnty;
+
+      // Check if stock with the given stockId exists
+      const foundStock = await Stock.findOne({ stockId });
+
+      if (foundStock) {
+        // Parse the productQnty to ensure it's a number
+        const productQntyNumber = parseInt(productQnty, 10);
+
+        // Update the productQnty in the foundStock
+        foundStock.productQnty -= productQntyNumber;
+
+        // Save the updated stock
+        await foundStock.save();
+      } else {
+        console.error(`Stock with stockId ${stockId} not found.`);
+      }
+    }
 
     // // Create entry in the database
     const invoice = await GenerateInvoice.create({
@@ -43,9 +64,7 @@ export const newInvoice = async (req, res) => {
       paidAmount,
       dueAmount: dueAmt,
       paymentMode,
-      items,
-      quantities,
-      prices,
+      itemList,
       totalAmount,
     });
 
@@ -97,14 +116,26 @@ export const newInvoice = async (req, res) => {
 };
 
 export const allInvoice = async (req, res) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to the beginning of the day
+
+  const tomorrow = new Date();
+  tomorrow.setHours(0, 0, 0, 0);
+  tomorrow.setDate(tomorrow.getDate() + 1); // Set time to the beginning of the next day
   try {
     //find all the task in db
-    const stocks = await GenerateInvoice.find({});
+    const invoices = await GenerateInvoice.find({
+      createdAt: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    });
+  
 
     return res.status(200).json({
       success: true,
-      message: "all stocks fetched successfully!",
-      stocks,
+      message: "All Invoice fetched successfully!",
+      invoices,
     });
   } catch (error) {
     return res.status(500).json({

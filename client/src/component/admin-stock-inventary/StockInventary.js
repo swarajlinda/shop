@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { server } from "../..";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 const StockInventary = () => {
   const [productName, setProductName] = useState("");
@@ -354,7 +354,7 @@ const StockInventary = () => {
             <button
               type="submit"
               onClick={handleOnUpdate}
-              className="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-green-500 w-full text-white py-2 px-4 rounded-md hover:bg-green-600 font-bold uppercase"
             >
               Update
             </button>
@@ -362,7 +362,7 @@ const StockInventary = () => {
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600"
+              className="bg-blue-500 w-full text-white py-2 px-4 rounded-md hover:bg-blue-600 font-bold uppercase"
             >
               Submit
             </button>

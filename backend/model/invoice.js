@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
+// Define a schema for the objects inside the array
+const itemDetailsSchema = new mongoose.Schema({
+    itemName: String,
+    itemPrice: Number,
+    itemQnty: Number,
+    itemTotalAmt: Number,
+    stockId: String,
+  });
+
 const invoiceSchema = new mongoose.Schema({
     invoiceId:{
         type:String,
@@ -29,15 +38,7 @@ const invoiceSchema = new mongoose.Schema({
     paymentMode:{
         type:String
     },
-    items:[
-        {type:String}
-    ],
-    prices:[
-        {type:String}
-    ],
-    quantities:[
-        {type:String}
-    ],
+    itemList: [itemDetailsSchema],
     totalAmount:{
         type:Number,
     }

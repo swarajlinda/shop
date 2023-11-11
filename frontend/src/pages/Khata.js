@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Khata() {
+  
   const navigation = useNavigate();
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -13,14 +14,11 @@ function Khata() {
   const [isUpdate, setIsUpdate] = useState(false);
   const [customerList, setCustomerList] = useState([]);
 
-  const navigate = useNavigate(); // Using useHistory hook for navigation
-
-  const { token } = useSelector((state) => state.auth);
+  
 
   
 
   const [refresh, setRefresh] = useState(false);
-
   const [id, setId] = useState("");
 
   //handle for create entry on db

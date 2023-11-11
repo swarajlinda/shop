@@ -1,43 +1,47 @@
 import mongoose from "mongoose";
+// / Define a schema for the objects inside the array
+const itemDetailsSchema = new mongoose.Schema({
+    itemName: String,
+    itemPrice: Number,
+    itemQnty: Number,
+    itemTotalAmt: Number,
+    stockId: String,
+  });
 
-const khataSchema = new mongoose.Schema({
+const khataSchema =  mongoose.Schema({
     invoiceId:{
         type:String,
-        required: true 
+        required:true
+    },
+    itemList:[itemDetailsSchema],
+    totalAmount:{
+        type:Number,
+        required:true
     },
     paidAmount:{
-        type:Number
+        type:Number,
+        required:true 
     },
     dueAmount:{
-        type:Number
+        type:Number,
+        required:true 
+    },
+    paymentMode:{
+        type:String,
+        required:true 
     },
     isPaymentDone:{
         type:Boolean,
-        default:false
+        default: false
     },
-    paymentMode:{
-        type:String
+    buyerId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"buyerdetails",
+        required:true
     },
-    items:[
-        {type:String}
-    ],
-    prices:[
-        {type:String}
-    ],
-    quantities:[
-        {type:String}
-    ],
-    totalAmount:{
-        type:Number,
-    },
-    buyerDetails:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"buyerdetails"
-    }
 },{
-    timestamps:true 
+    timestamps: true 
 }
 )
 
-export const KhataInvoices = mongoose.model("regularcustomerinvoices", khataSchema);
-
+export const KhataInvoices = mongoose.model("khata_items_details", khataSchema);

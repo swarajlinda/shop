@@ -6,8 +6,12 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import KhataHolderPurchaseHistory from "../admin-khata-holder/KhataHolderPurchaseHistory";
 
-const Invoice = () => {
+const KhataInvoice = ({id}) => {
+
+    
+    
   const navigate = useNavigate();
   const [itemName, setItemName] = useState("");
   const [itemQnty, setItemQnty] = useState("");
@@ -17,25 +21,22 @@ const Invoice = () => {
   const [stockId, setStockId] = useState("");
 
   const [invoiceId, setInvoiceId] = useState("");
-  const [customerName, setCustomerName] = useState("Walking Customer");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  // const [paymentMode, setPaymentMode] = useState("");
+  //   const [customerName, setCustomerName] = useState("Walking Customer");
+  //   const [address, setAddress] = useState("");
+  //   const [phoneNumber, setPhoneNumber] = useState("");
+  const [paymentMode, setPaymentMode] = useState("");
   const [paidAmount, setPaidAmount] = useState(0);
   const [dueAmount, setDueAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [refresh, setRefresh] = useState(false)
   // const [isPaymentDone, setIsPaymentDone] = useState(false);/
-  const [paymentMode, setPaymentMode] = useState(false);
+//   const [paymentMode, setPaymentMode] = useState(false);
 
   const [formData, setFormData] = useState({
-    // items: [],
-    // quantities: [],
-    // prices: [],
     itemList: [],
   });
-  const paymentModes = ["Cash", "Online", "Card"];
+  const paymentModes = ["--Select--","Cash", "Online", "Card"];
   const options = [];
-
 
   //load data
   useEffect(() => {
@@ -49,7 +50,7 @@ const Invoice = () => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [refresh]);
 
   //generate custom invoice id
   useEffect(() => {
@@ -68,34 +69,32 @@ const Invoice = () => {
     options.push({ value, label });
   }
 
-  console.log("length",formData.itemList.length)
+//   console.log("length", formData.itemList.length);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     // Prepare the data to send to the backend
     const data = {
       invoiceId,
-      customerName,
-      address,
-      phoneNumber,
       paidAmount,
       paymentMode,
       itemList: formData.itemList,
       totalAmount,
+      dueAmount
     };
+    console.log(data)
 
-    //validation 
-    if(formData.itemList.length > 0){
+    //validation
+    if (formData.itemList.length > 0) {
       try {
-        const response = await axios.post(`${server}/invoice/new`, data, {
+        const response = await axios.post(`${server}/khata/${id}`, data, {
           headers: {
             "Content-Type": "application/json",
           },
           withCredentials: true,
         });
-  
+
         if (response.status === 200) {
           // reset to initial
           setFormData((prevFormData) => ({
@@ -103,16 +102,19 @@ const Invoice = () => {
             itemList: [],
           }));
           // Handle success, maybe reset the form or show a success message
-          toast.success("Invoice submitted successfully!", {
+          toast.success("Invoice  submitted successfully!", {
             position: toast.POSITION.TOP_RIGHT,
           });
-  
+
+          //refresh 
+          setRefresh(true)
+
           //navigate to invoice management
-          setCustomerName("Walking Customer")
-          setPaidAmount(0)
-          setAddress("")
-          setPhoneNumber("")      
-          handleOnPrint();
+          //   setCustomerName("Walking Customer")
+          setPaidAmount(0);
+          //   setAddress("")
+          //   setPhoneNumber("")
+        //   handleOnPrint();
         } else {
           // Handle error, display an error message or perform an action
           toast.error("Failed to submit the invoice.", {
@@ -125,14 +127,11 @@ const Invoice = () => {
           position: toast.POSITION.TOP_RIGHT,
         });
       }
-    }else{
-      alert("Please add Products")
+    } else {
+      alert("Please add Products");
     }
 
-
-
     // hit the api of mongo db backend
-   
   };
 
   //add item
@@ -180,10 +179,7 @@ const Invoice = () => {
     }
   };
 
-  //check stock available or not
-  // if(itemQnty === 0){
-  //   alert("Stock Not Available!")
-  // }
+ 
 
   // calculate total amount
   const calculateTotalAmount = useCallback(() => {
@@ -233,7 +229,7 @@ const Invoice = () => {
     day < 10 ? "0" + day : day
   }`;
 
-  console.log(formattedDate); // Output: YYYY-MM-DD
+  console.log(paymentMode); 
 
   //  handle for print
   const handleOnPrint = () => {
@@ -327,7 +323,7 @@ const Invoice = () => {
   <span>Date: ${formattedDate}</span>
   <span>Inv.ID: ${invoiceId}</span>
 </div>
-<p>Customer Name: ${customerName}</p>
+    <--<p>Customer Name: </p>-->
       <h5>List of Items:</h5>
       <table>
         <thead>
@@ -391,7 +387,7 @@ const Invoice = () => {
               />
             </div>
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label className="text-md text-gray-600">Customer Name:</label>
               <input
                 type="text"
@@ -399,9 +395,9 @@ const Invoice = () => {
                 onChange={(e) => setCustomerName(e.target.value)}
                 className="border rounded-md py-2 px-2 focus:outline-none focus:ring focus:border-blue-300"
               />
-            </div>
+            </div> */}
 
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
               <label className="text-md text-gray-600">Address:</label>
               <input
                 type="text"
@@ -410,8 +406,8 @@ const Invoice = () => {
                 onChange={(e) => setAddress(e.target.value)}
                 className="border rounded-md py-2 px-2  focus:outline-none focus:ring focus:border-blue-300"
               />
-            </div>
-
+            </div> */}
+            {/* 
             <div className="flex flex-col">
               <label className="text-md text-gray-600">Phone Number</label>
               <input
@@ -421,7 +417,7 @@ const Invoice = () => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 className="border rounded-md py-2 px-2  focus:outline-none focus:ring focus:border-blue-300"
               />
-            </div>
+            </div> */}
 
             {/* add item  */}
             <div className="flex items-center space-x-4">
@@ -563,9 +559,13 @@ const Invoice = () => {
         </div>
 
         {/* END GENERATE INVOICE  */}
+
+        {/* puchasedHistory  */}
+        <KhataHolderPurchaseHistory userId={id} refresh={refresh}/>
+        {/* end purchased history  */}
       </div>
     </div>
   );
 };
 
-export default Invoice;
+export default KhataInvoice;

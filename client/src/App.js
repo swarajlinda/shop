@@ -9,7 +9,6 @@ import "./App.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./actions/LoadUserAction";
-import ProtectedRoutes from "./HOC/ProtectedRoutes";
 import Login from "./pages/auth-login/Login";
 import AdminDashboard from "./pages/admin-dashboard/AdminDashboard";
 import GenerateInvoice from "./pages/invoice/GenerateInvoice";
@@ -21,6 +20,7 @@ import StockManagement from "./pages/stock-management/StockManagement";
 import StaffPage from "./pages/staff/StaffPage";
 import Reports from "./pages/reports-sales/Reports";
 import Home from "./pages/main/Home";
+import KhataHolderPurchase from "./pages/khata/KhataHolderPurchase";
 
 function App() {
   const { isAuthenticate } = useSelector((state) => state.loadUser);
@@ -47,6 +47,7 @@ function App() {
 
           <Route path="createKhata" element={<CreateKhata />} />
           <Route path="manageKhata" element={<ManageKhata />} />
+          <Route path="individualKhata" element={<KhataHolderPurchase />} />
 
           <Route path="newStock" element={<AddNewStock />} />
           <Route path="manageStock" element={<StockManagement />} />

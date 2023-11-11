@@ -1,8 +1,11 @@
 import React from 'react'
+import Khata from '../../component/admin-khata/Khata'
 
 const CreateKhata = () => {
   return (
-    <div>CreateKhata</div>
+    <div>
+      <Khata/>
+    </div>
   )
 }
 

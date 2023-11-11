@@ -83,7 +83,7 @@ const StockInventaryManagement = () => {
   return (
     <div>
       <ToastContainer/>
-      <div>
+      <div className="w-full">
         <h2 className=" w-full p-1 px-4 text-white text-lg font-semibold mb-4 text-left uppercase bg-gray-900 rounded">
           All Stock Available
         </h2>
@@ -94,22 +94,16 @@ const StockInventaryManagement = () => {
           type="text"
           onChange={(e) => handleSearch(e)}
           placeholder="Search Product..."
-          className="w-full outline-none"
+          className="w-96 p-3 rounded-lg outline-none"
         />
       </div>
       {/* end handle search  */}
       <div>
-        <table className="w-fit bg-white">
+        <table className="w-fit bg-white ">
           <thead>
             <tr>
-              <th className="p-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
-                Stock ID
-              </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
                 Product Name
-              </th>
-              <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
-                Expiry Date
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
                 Poduct Unit Type
@@ -127,7 +121,7 @@ const StockInventaryManagement = () => {
                 Retail Rate
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
-                Product Category
+                Product Quantity 
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
                 Distributer Name
@@ -136,7 +130,7 @@ const StockInventaryManagement = () => {
                 Date
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
-                Submitted By
+                Expiry Date
               </th>
               <th className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm font-bold text-gray-600 uppercase">
                 Actions
@@ -165,14 +159,9 @@ const StockInventaryManagement = () => {
               .map((item, index) => (
                 <tr key={index}>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.stockId}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
                     {item.productName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.productExpiryDate}
-                  </td>
+                 
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.productUnitType}
                   </td>
@@ -189,7 +178,7 @@ const StockInventaryManagement = () => {
                     {item.retailAmount}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.productCategory}
+                    {item.productQnty}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.distributerName}
@@ -198,19 +187,19 @@ const StockInventaryManagement = () => {
                     {new Date(item.createdAt).toLocaleString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.submittedBy.name}
+                    {item.productExpiryDate}
                   </td>
                   {/* Add other table data cells similarly */}
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <button
                       onClick={() => handleUpdate(item._id)}
-                      className="text-indigo-600 hover:text-indigo-900 mr-2"
+                      className="p-2 text-white rounded mr-2 bg-green-600 uppercase "
                     >
                       Update
                     </button>
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="text-red-600 hover:text-red-900"
+                      className="bg-red-600 text-white p-2 rounded uppercase"
                     >
                       Delete
                     </button>

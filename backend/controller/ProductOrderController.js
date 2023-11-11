@@ -1,5 +1,6 @@
 import { BuyerDetails } from "../model/buyerDetails.js";
 import { ProductDetails } from "../model/itemsDetails.js";
+import { Stock } from "../model/stock.js";
 
 
 
@@ -9,14 +10,36 @@ export const newItems = async (req, res) => {
     //extract id from params and body
     const { id } = req.params;
     console.log(id)
-    const { itemName, itemQty, itemPrice, itemUnit, itemTotolAmount } =
+    const {invoiceId, itemList, totalAmount, paidAmount, dueAmount, paymentMode } =
       req.body;
     //validation
     if (!id) {
-      return res.status(204).json({
+      return res.status(400).json({
         success: false,
         message: "ID is empty",
       });
+    }
+
+    //update stock
+    for (const item of itemList) {
+      const stockId = item.stockId;
+      const productQnty = item.itemQnty;
+
+      // Check if stock with the given stockId exists
+      const foundStock = await Stock.findOne({ stockId });
+
+      if (foundStock) {
+        // Parse the productQnty to ensure it's a number
+        const productQntyNumber = parseInt(productQnty, 10);
+
+        // Update the productQnty in the foundStock
+        foundStock.productQnty -= productQntyNumber;
+
+        // Save the updated stock
+        await foundStock.save();
+      } else {
+        console.error(`Stock with stockId ${stockId} not found.`);
+      }
     }
 
     //check user exist or not in db
@@ -30,28 +53,28 @@ export const newItems = async (req, res) => {
     }
 
     //check the item data
-    if (!itemName || !itemPrice || !itemQty) {
+    if (!invoiceId || !totalAmount || !paymentMode) {
       return res.status(400).json({
         success: false,
         message: "all field are required!",
       });
     }
 
-    const amount = itemPrice * itemQty
-    console.log(amount)
+   
     //create entry on db
-    const item = await ProductDetails.create({
-      itemName,
-      itemPrice,
-      itemQty,
-      itemUnit,
-      itemTotalAmt: amount,
+    const items = await ProductDetails.create({
+      invoiceId,
+      itemList,
+      totalAmount,
+      paidAmount,
+      dueAmount,
+      paymentMode,
       buyerId: user._id,
     });
 
     return res.status(200).json({
       success: true,
-      item,
+      items,
       message: "item added successfully",
     });
   } catch (error) {

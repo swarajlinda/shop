@@ -1,8 +1,9 @@
 import React from 'react'
+import Invoice from '../../component/admin-invoice/Invoice'
 
 const GenerateInvoice = () => {
   return (
-    <div >GenerateInvoice</div>
+    <div ><Invoice/></div>
   )
 }
 
