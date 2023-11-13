@@ -12,6 +12,10 @@ const Invoice = () => {
   const [itemName, setItemName] = useState("");
   const [itemQnty, setItemQnty] = useState("");
   const [itemPrice, setItemPrice] = useState("");
+  const [itemWholeSaleRate, setItemWholeSaleRate] = useState("");
+  const [itemRetailRate, setItemRetailRate] = useState("");
+  const [itemPurchasedRate, setItemPurchasedRate] = useState("");
+
   const [stockList, setStockList] = useState([]);
 
   const [stockId, setStockId] = useState("");
@@ -68,7 +72,6 @@ const Invoice = () => {
     options.push({ value, label });
   }
 
-  console.log("length",formData.itemList.length)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,8 +146,12 @@ const Invoice = () => {
       itemQnty,
       itemPrice,
       itemTotalAmt: itemQnty * itemPrice,
+      itemWholeSaleRate: itemQnty * itemWholeSaleRate,
+      itemRetailRate: itemQnty * itemRetailRate,
+      itemPurchasedRate: itemQnty * itemPurchasedRate,
       stockId,
     };
+    console.log(data)
     addMultipleItems(data);
   };
 
@@ -155,7 +162,6 @@ const Invoice = () => {
     }));
   };
 
-  console.log(formData.itemList);
 
   const removeItem = (index) => {
     // console.log(index);
@@ -172,6 +178,9 @@ const Invoice = () => {
     for (let i = 0; i < stockList.length; i++) {
       if (selectedOption.value === stockList[i].productName) {
         setStockId(stockList[i].stockId);
+        setItemRetailRate(stockList[i].retailAmount)
+        setItemWholeSaleRate(stockList[i].wholesaleAmount)
+        setItemPurchasedRate(stockList[i].kharidAmount)
         if (stockList[i].productQnty === 0) {
           alert("Stock Not Available!");
         }
@@ -180,10 +189,8 @@ const Invoice = () => {
     }
   };
 
-  //check stock available or not
-  // if(itemQnty === 0){
-  //   alert("Stock Not Available!")
-  // }
+  
+  // console.log(itemRetailRate, itemWholeSaleRate, itemPurchasedRate)
 
   // calculate total amount
   const calculateTotalAmount = useCallback(() => {

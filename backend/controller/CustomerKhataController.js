@@ -260,7 +260,39 @@ export const deleteItem = async (req, res) => {
 };
 
 
-//get all the items
+//get all invoice from khata 
+export const allInvoiceFromKhata = async (req, res) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to the beginning of the day
+
+  const tomorrow = new Date();
+  tomorrow.setHours(0, 0, 0, 0);
+  tomorrow.setDate(tomorrow.getDate() + 1); // Set time to the beginning of the next day
+  try {
+    //find all the task in db
+    const khataInvoices = await KhataInvoices.find({
+      createdAt: {
+        $gte: today,
+        $lt: tomorrow,
+      },
+    });
+  
+
+    return res.status(200).json({
+      success: true,
+      message: "All Invoice fetched successfully!",
+      khataInvoices,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+//get all the items from specific id
 export const allIKhataInvoice =async(req, res)=>{
     try {
         const {id} = req.params

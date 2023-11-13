@@ -1,6 +1,6 @@
 import express  from "express";
 import { isAuthenticated } from "../middleware/auth.js";
-import { allIKhataInvoice, newKhataInvoice } from "../controller/CustomerKhataController.js";
+import { allIKhataInvoice, allInvoiceFromKhata, newKhataInvoice } from "../controller/CustomerKhataController.js";
 
 const router = express.Router()
 
@@ -15,6 +15,9 @@ router.post("/:id", isAuthenticated, newKhataInvoice)
 
 //delete the item 
 // router.delete("/:id", isAuthenticated, deleteItem)
+
+// get all khata invoices 
+router.get("/all", isAuthenticated, allInvoiceFromKhata)
 
 //get all the khata of specific user
 router.get("/:id", isAuthenticated, allIKhataInvoice)

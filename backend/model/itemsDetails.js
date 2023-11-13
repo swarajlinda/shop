@@ -6,6 +6,9 @@ const itemDetailsSchema = new mongoose.Schema({
     itemPrice: Number,
     itemQnty: Number,
     itemTotalAmt: Number,
+    itemWholeSaleRate:Number,
+    itemRetailRate:Number,
+    itemPurchasedRate:Number,
     stockId: String,
   });
 

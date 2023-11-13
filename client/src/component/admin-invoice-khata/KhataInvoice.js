@@ -10,6 +10,11 @@ import KhataHolderPurchaseHistory from "../admin-khata-holder/KhataHolderPurchas
 
 const KhataInvoice = ({id}) => {
 
+  const [itemWholeSaleRate, setItemWholeSaleRate] = useState("");
+  const [itemRetailRate, setItemRetailRate] = useState("");
+  const [itemPurchasedRate, setItemPurchasedRate] = useState("");
+
+
     
     
   const navigate = useNavigate();
@@ -146,8 +151,12 @@ const KhataInvoice = ({id}) => {
       itemQnty,
       itemPrice,
       itemTotalAmt: itemQnty * itemPrice,
+      itemWholeSaleRate: itemQnty * itemWholeSaleRate,
+      itemRetailRate: itemQnty * itemRetailRate,
+      itemPurchasedRate: itemQnty * itemPurchasedRate,
       stockId,
     };
+    console.log(data)
     addMultipleItems(data);
   };
 
@@ -175,6 +184,9 @@ const KhataInvoice = ({id}) => {
     for (let i = 0; i < stockList.length; i++) {
       if (selectedOption.value === stockList[i].productName) {
         setStockId(stockList[i].stockId);
+        setItemRetailRate(stockList[i].retailAmount)
+        setItemWholeSaleRate(stockList[i].wholesaleAmount)
+        setItemPurchasedRate(stockList[i].kharidAmount)
         if (stockList[i].productQnty === 0) {
           alert("Stock Not Available!");
         }
