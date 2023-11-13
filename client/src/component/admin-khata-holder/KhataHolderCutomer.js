@@ -8,13 +8,13 @@ function KhataHolderCutomer({
     dueAmount,
     isPaymentDone,
     updateCustomer,
-    deleteCustomer,
+    // deleteCustomer,
     id,
     addOrderHandle
   }) {
   return (
     <div>
-        <div onClick={() =>addOrderHandle(id)}>
+        {/* <div onClick={() =>addOrderHandle(id)}> */}
       <div className="bg-white p-4 mb-4 rounded-md shadow-md flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">{name}</h3>
@@ -33,15 +33,15 @@ function KhataHolderCutomer({
           </button>
           {/* onClick={() => deleteTask(index)} */}
           <button
-            onClick={() => deleteCustomer(id)}
-            className="bg-red-500 text-white font-semibold py-1 px-3 rounded-md focus:outline-none"
+            onClick={() => addOrderHandle(id)}
+            className="bg-green-500 text-white font-semibold py-1 px-3 rounded-md focus:outline-none"
           >
-            Delete
+            Add Order
           </button>
         </div>
       </div>
     </div>
-    </div>
+    // </div>
   )
 }
 

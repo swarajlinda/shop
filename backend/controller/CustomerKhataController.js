@@ -18,7 +18,7 @@ export const newKhataInvoice = async (req, res) => {
       const {invoiceId, itemList, totalAmount, paidAmount, dueAmount, paymentMode } =
       req.body;
 
-      console.log(req.body)
+      // console.log(req.body)
     //validation
     if (!id) {
       return res.status(400).json({
@@ -58,25 +58,38 @@ export const newKhataInvoice = async (req, res) => {
           });
         }
     
-        //check payment is less than eqaul to total amount
-        let dueAmt = 0;
-        if (paidAmount <= totalAmount) {
-          dueAmt = totalAmount - paidAmount;
-        }
-        console.log("working");
-        console.log(dueAmt);
+        let isPaymentDone = false
+
+        dueAmount === 0 ? isPaymentDone = true : isPaymentDone = false  
 
         // find the user 
         const user = await BuyerDetails.findById(id)
+        // console.log(user)
 
         if(!user){
-            return res.status(504).json({
+            return res.status(500).json({
                 success: false,
                 message: "user not found"
             })
         }
+        console.log("working")
 
-        console.log("working 12")
+        // search previous dueAmount and and latest one 
+       
+       
+        // console.log(user.totalDueAmount)
+        
+        const dueAmountOfBuyer = dueAmount + user.totalDueAmount
+        console.log(dueAmountOfBuyer)
+
+        const totalAmountOfBuyer = totalAmount + user.totalAmount
+
+        user.totalDueAmount = dueAmountOfBuyer
+        user.totalAmount = totalAmountOfBuyer
+        user.save()
+        
+
+        console.log(user)
 
         
     
@@ -88,47 +101,59 @@ export const newKhataInvoice = async (req, res) => {
           paidAmount,
           dueAmount,
           paymentMode,
+          isPaymentDone,
           buyerId: user._id
         });
+
+        
+        
+
     
         //find invoice
-        const foundInvoice = await KhataInvoices.findOne({ invoiceId: invoiceId });
+        // const foundInvoice = await KhataInvoices.findOne({ invoiceId: invoiceId });
     
-        if (foundInvoice) {
-          console.log("working1")
-          console.log(foundInvoice.paidAmount)
-          console.log(foundInvoice.totalAmount)
+        // if (foundInvoice) {
+        //   console.log("working1")
+        //   console.log(foundInvoice.paidAmount)
+        //   console.log(foundInvoice.totalAmount)
     
-          // Check if paidAmount is equal to totalAmount
-          if (foundInvoice.paidAmount == foundInvoice.totalAmount) {
-            // Update the isPaymentDone
-            foundInvoice.isPaymentDone = true;
+        //   // Check if paidAmount is equal to totalAmount
+        //   if (foundInvoice.paidAmount == foundInvoice.totalAmount) {
+        //     // Update the isPaymentDone
+        //     foundInvoice.isPaymentDone = true;
             
-            console.log("working2")
-            console.log(foundInvoice.isPaymentDone)
-            // Save the changes
-            await foundInvoice.save();
+        //     console.log("working2")
+        //     console.log(foundInvoice.isPaymentDone)
+        //     // Save the changes
+        //     await foundInvoice.save();
         
-            return res.status(200).json({
-              success: true,
-              foundInvoice,
-              message: "Invoice updated successfully. No due amount.",
-            });
+        //     return res.status(200).json({
+        //       success: true,
+        //       foundInvoice,
+        //       message: "Invoice updated successfully. No due amount.",
+        //     });
     
-          } else {
-            return res.status(200).json({
-              success: true,
-              khataInvoice,
-              message: "Invoice added successfully!",
-            });
-          }
-        } else {
-          return res.status(200).json({
-            success: true,
-            khataInvoice,
-            message: "Invoice added successfully! but Invoice not found",
-          });
-        }
+        //   } else {
+        //     return res.status(200).json({
+        //       success: true,
+        //       khataInvoice,
+        //       message: "Invoice added successfully!",
+        //     });
+        //   }
+        // } else {
+        //   return res.status(200).json({
+        //     success: true,
+        //     khataInvoice,
+        //     message: "Invoice added successfully! but Invoice not found",
+        //   });
+        // }
+
+
+        return res.status(200).json({
+          success: true,
+          khataInvoice,
+          message: "Invoice added successfully!",
+        });
         
       } catch (error) {
         return res.status(500).json({

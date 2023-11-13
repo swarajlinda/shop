@@ -87,6 +87,10 @@ const KhataInvoice = ({id}) => {
 
     //validation
     if (formData.itemList.length > 0) {
+      if(!paymentMode){
+        alert("Please Select Payment mode")
+        return
+      }
       try {
         const response = await axios.post(`${server}/khata/${id}`, data, {
           headers: {
@@ -114,7 +118,7 @@ const KhataInvoice = ({id}) => {
           setPaidAmount(0);
           //   setAddress("")
           //   setPhoneNumber("")
-        //   handleOnPrint();
+          handleOnPrint();
         } else {
           // Handle error, display an error message or perform an action
           toast.error("Failed to submit the invoice.", {
@@ -233,11 +237,11 @@ const KhataInvoice = ({id}) => {
 
   //  handle for print
   const handleOnPrint = () => {
-    const printWindow = window.open("", "_blank");
+    const printWindow = window.open("", "", "width=1000, height=1000");
     printWindow.document.write(getPrintableInvoice());
     printWindow.document.close();
     printWindow.print();
-    navigate("../manageInvoice");
+    navigate("../manageKhata");
   };
 
   const getPrintableInvoice = () => {
@@ -387,38 +391,7 @@ const KhataInvoice = ({id}) => {
               />
             </div>
 
-            {/* <div className="flex flex-col">
-              <label className="text-md text-gray-600">Customer Name:</label>
-              <input
-                type="text"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-                className="border rounded-md py-2 px-2 focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div> */}
-
-            {/* <div className="flex flex-col">
-              <label className="text-md text-gray-600">Address:</label>
-              <input
-                type="text"
-                placeholder="Address(Optional)"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="border rounded-md py-2 px-2  focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div> */}
-            {/* 
-            <div className="flex flex-col">
-              <label className="text-md text-gray-600">Phone Number</label>
-              <input
-                type="text"
-                placeholder="Phone Number(Optional)"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="border rounded-md py-2 px-2  focus:outline-none focus:ring focus:border-blue-300"
-              />
-            </div> */}
-
+          
             {/* add item  */}
             <div className="flex items-center space-x-4">
               <div className="flex flex-col">

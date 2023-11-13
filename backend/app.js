@@ -10,6 +10,7 @@ import khataInvoice from "./routes/customerKhataRoutes.js"
 import itemsRoutes from "./routes/itemOrderRoutes.js"
 import invoice from "./routes/generateInvoiceRoutes.js"
 import stock from "./routes/stockRoutes.js"
+import khataCustomerPaymentHistory from "./routes/KhataCustomerPaymentHistoryRoutes.js"
 import { errorMiddleware } from "./middleware/error.js";
 
 
@@ -49,6 +50,10 @@ app.use("/api/v1/invoice", invoice)
 
 // //routes for create new invoice
 app.use("/api/v1/stock", stock)
+
+
+//routes for khata payment history 
+app.use("/api/v1/khatapayment", khataCustomerPaymentHistory)
 
 
 

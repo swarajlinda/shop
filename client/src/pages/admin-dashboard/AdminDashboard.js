@@ -17,21 +17,21 @@ const AdminDashboard = () => {
   return (
     <div className="flex flex-col">
       {/* header  */}
-      <section className=" top-0 w-full">
+      <section className=" top-0 w-full z-50">
         <Navbar />
       </section>
       {/* header end */}
 
       {/* content section     */}
-      <section className="h-screen flex bg-gray-300 ">
+      <section className="h-auto flex bg-gray-300 mt-28">
         {/* side bar  */}
-        <div className="w-64 h-screen bg-emerald-800">
+        <div className="w-64 h-screen bg-green-500 fixed ">
           <Sidebar />
         </div>
         {/* end sidebar  */}
 
         {/* outlet  */}
-        <div className=" w-full h-screen">
+        <div className="ml-64 bg-slate-200 w-full h-auto">
           <Outlet />
         </div>
       </section>

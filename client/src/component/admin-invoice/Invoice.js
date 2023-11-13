@@ -237,7 +237,7 @@ const Invoice = () => {
 
   //  handle for print
   const handleOnPrint = () => {
-    const printWindow = window.open("", "_blank");
+    const printWindow = window.open("", "", "width=1000, height=900");
     printWindow.document.write(getPrintableInvoice());
     printWindow.document.close();
     printWindow.print();
@@ -372,14 +372,15 @@ const Invoice = () => {
     <div>
       <ToastContainer />
       <div className="w-full">
-        <h2 className=" w-full p-1 px-4 text-white text-lg font-semibold mb-4 text-left uppercase bg-gray-900 rounded">
-          Generate Invoice
+        <h2 className=" w-full p-1 px-4 text-white text-lg font-bold mb-4 text-left uppercase bg-green-500 ">
+           Generate Invoice
         </h2>
 
         {/* GENERATE INVOICE  */}
-        <div className="invoice-form col-span-6 max-w-5xl mx-auto p-4 bg-gray-100 rounded-lg shadow-md">
+        <div className="invoice-form col-span-6 max-w-4xl mx-auto  p-4 bg-slate-100 rounded-lg shadow-lg">
           {/* <h1 className="text-2xl font-bold mb-4">Create Invoice</h1> */}
-          <div className="space-y-4">
+          <p className="text-center text-green-500 font-bold text-3xl p-2">New Invoice</p> <hr />
+          <div className="space-y-4 mt-3">
             <div className="flex flex-col">
               <label className="text-md text-gray-600">Invoice ID:</label>
               <input

@@ -88,7 +88,7 @@ const KhataHolderPurchaseHistory = ({userId, refresh}) => {
                     dateObjectB.getMinutes() * 60 +
                     dateObjectB.getSeconds();
 
-                  return timeAInSeconds - timeBInSeconds;
+                  return timeBInSeconds - timeAInSeconds;
                 })
                 .map((item, index) => (
                   <tr key={index} className="border-b">

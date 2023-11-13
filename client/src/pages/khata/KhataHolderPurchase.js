@@ -8,6 +8,8 @@ const KhataHolderPurchase = () => {
   let id = localStorage.getItem("id");
 
   const [user, setUser] = useState([]);
+  // const [totalAmount, setTotalAmount] = useState("")
+  // const [totalDueAmount, setTotalDueAmount] = useState("")
 
   //for showing data
   useEffect(() => {
@@ -23,6 +25,10 @@ const KhataHolderPurchase = () => {
       });
   }, [id]);
 
+
+
+  
+
   return (
     <div>
       {/* user details bar  */}
@@ -32,7 +38,10 @@ const KhataHolderPurchase = () => {
           <ul className="flex space-x-4">
             <li className="text-white">{user.address}</li>
             <li className="text-white">{user.phoneNumber}</li>
+            <li className="text-white">Total Amount of perchased:{user.totalAmount}</li>
+            <li className="text-white">Total Due Amount:{user.totalDueAmount}</li>
           </ul>
+          <button className="px-4 py-1 bg-green-500 text-white rounded">Pay</button>
         </div>
       </nav>
       {/* enduser details bar  */}
