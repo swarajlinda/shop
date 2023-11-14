@@ -1,5 +1,5 @@
 import express  from "express";
-import { allInvoice, newInvoice } from "../controller/GenerateInvoice.js";
+import { allInvoice, getAllInvoiceHistory, newInvoice } from "../controller/GenerateInvoice.js";
 import { isAuthenticated } from "../middleware/auth.js";
 
 const router = express.Router()
@@ -16,8 +16,12 @@ router.post("/new", isAuthenticated, newInvoice)
 //delete the item 
 // router.delete("/:id", isAuthenticated, deleteItem)
 
-//get all the khata of specific user
+//get all the invoice of today only
 router.get("/all", isAuthenticated, allInvoice)
+
+//get all the invoice history
+router.get("/history", isAuthenticated, getAllInvoiceHistory)
+
 
 
 export default router

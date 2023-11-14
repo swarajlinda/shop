@@ -1,6 +1,7 @@
 import { GenerateInvoice } from "../model/invoice.js";
 import { Stock } from "../model/stock.js";
 
+// create new invoice 
 export const newInvoice = async (req, res) => {
   // console.log(req.body);
 
@@ -115,6 +116,7 @@ export const newInvoice = async (req, res) => {
   }
 };
 
+// get all vincoice of today 
 export const allInvoice = async (req, res) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to the beginning of the day
@@ -134,7 +136,7 @@ export const allInvoice = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "All Invoice fetched successfully!",
+      message: "All Todays Invoice fetched successfully!",
       invoices,
     });
   } catch (error) {
@@ -144,3 +146,23 @@ export const allInvoice = async (req, res) => {
     });
   }
 };
+
+//get all invoice history
+export const getAllInvoiceHistory = async(req, res)=>{
+  try {
+    //find all the task in db
+    const invoicesHistory = await GenerateInvoice.find({});
+  
+
+    return res.status(200).json({
+      success: true,
+      message: "All Invoice fetched successfully!",
+      invoicesHistory,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}

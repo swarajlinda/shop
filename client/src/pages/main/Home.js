@@ -5,6 +5,8 @@ import HeadingTitle from "../../component/heading/HeadingTitle";
 import SalesCard from "../../component/admin-sales-card/SalesCard";
 import SaleBarGraph from "../../component/graph/bar/SaleBarGraph";
 import SalePieGraph from "../../component/graph/pie/SalePieGraph";
+import SaleMonthlyLineGraph from "../../component/graph/line/SaleMonthlyLineGraph";
+import SaleMonthlyKhataLine from "../../component/graph/line/SaleMonthlyKhataLine";
 
 const Home = () => {
   const [stockList, setStockList] = useState([]);
@@ -101,7 +103,9 @@ const Home = () => {
 
     //for calculate revenue
     for (let item = 0; item < allIKhataInvoice[i].itemList.length; item++) {
-       totalPurchasedAmtFromKhata = totalPurchasedAmtFromKhata + allIKhataInvoice[i].itemList[item].itemPurchasedRate
+      totalPurchasedAmtFromKhata =
+        totalPurchasedAmtFromKhata +
+        allIKhataInvoice[i].itemList[item].itemPurchasedRate;
       totalSaleProductFromKhata = totalSaleProductFromKhata + item + 1;
     }
   }
@@ -122,11 +126,16 @@ const Home = () => {
         </div>
         <div className="col-span-3 ">
           <SalesCard
-            totalAmount={(totalSaleFromInvoiceOnly - totalKharidAmount) + (totalAmountFromKhata - totalPurchasedAmtFromKhata)}
+            totalAmount={
+              totalSaleFromInvoiceOnly -
+              totalKharidAmount +
+              (totalAmountFromKhata - totalPurchasedAmtFromKhata)
+            }
             moneyColor={`text-gray-200`}
             bgColor={`bg-green-700`}
             titleColor={`text-white`}
             title={"Total Revenue"}
+            rupeesSymbol={"₹"}
           />
         </div>
         <div className="col-span-3 ">
@@ -136,6 +145,7 @@ const Home = () => {
             bgColor={`bg-red-500`}
             titleColor={`text-slate-800`}
             title={"Total Due Amount"}
+            rupeesSymbol={"₹"}
           />
         </div>
         <div className="col-span-3 ">
@@ -145,21 +155,39 @@ const Home = () => {
             bgColor={`bg-green-900`}
             titleColor={`text-white`}
             title={"Total Sales Amount"}
+            rupeesSymbol={"₹"}
           />
         </div>
       </section>
-      {/* sale report end  */}
+      {/* todays sale report end  */}
 
       {/* sale report on graph */}
-      <section className="grid grid-cols-12">
-        <div className="col-span-6">
-          <SaleBarGraph />
-        </div>
-        <div className="col-span-6">
-          <SalePieGraph />
+      <section className="p-4 bg-white">
+        <div className="grid grid-cols-2">
+          {/* invoice list sale history of this month  */}
+          <div className="col-span-1">
+            <div className="flex justify-start ">
+              <span className="p-4 text-lg font-bold text-green-600 uppercase">
+                This Month sale (Invoice)
+              </span>
+            </div>
+            <SaleMonthlyLineGraph />
+          </div>
+
+          {/* khata invoice sale history */}
+          <div className="col-span-1">
+            <div className="flex justify-start ">
+              <span className="p-4 text-lg font-bold text-green-600 uppercase">
+                This Month sale (khata)
+              </span>
+            </div>
+            <SaleMonthlyKhataLine />
+          </div>
         </div>
       </section>
-      {/* sale report on graph end */}
+      
+
+
     </div>
   );
 };
