@@ -1,5 +1,5 @@
 import express from "express"
-import { deleteStock, getAllStock, getStockById, newStock, updateStock } from "../controller/StockController.js"
+import { deleteStock, getAllStock, getStockById, getStockHistory, newStock, updateStock } from "../controller/StockController.js"
 import { isAuthenticated } from "../middleware/auth.js"
 
 const router = express.Router()
@@ -10,6 +10,9 @@ router.post("/newstock",isAuthenticated, newStock)
 
 //route for get task
 router.get("/mystock", isAuthenticated, getAllStock)
+
+//route for get all stock history
+router.get("/history", isAuthenticated, getStockHistory)
 
 //routes for get specific id
 router.get("/:id", isAuthenticated, getStockById)

@@ -15,28 +15,24 @@ const AdminDashboard = () => {
   }, [isAuthenticate, navigate]);
 
   return (
-    <div className="flex flex-col">
+    <>
       {/* header  */}
       <section className=" top-0 w-full z-50">
         <Navbar />
       </section>
       {/* header end */}
 
-      {/* content section     */}
-      <section className="h-auto flex bg-gray-300 mt-28">
-        {/* side bar  */}
-        <div className="w-64 h-screen bg-green-500 fixed ">
-          <Sidebar />
-        </div>
-        {/* end sidebar  */}
+      {/* side bar  */}
+      <div className="w-64 h-screen bg-slate-50 fixed border top-16 z-40">
+        <Sidebar />
+      </div>
+      {/* end sidebar  */}
 
-        {/* outlet  */}
-        <div className="ml-64 bg-slate-200 w-full h-auto">
-          <Outlet />
-        </div>
-      </section>
-      {/* content section  end   */}
-    </div>
+      {/* outlet  */}
+      <div className="ml-64 h-auto mt-16">
+        <Outlet />
+      </div>
+    </>
   );
 };
 

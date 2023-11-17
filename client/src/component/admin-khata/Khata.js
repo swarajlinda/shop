@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import KhataHolderCutomer from "../admin-khata-holder/KhataHolderCutomer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HeadingTitle from "../heading/HeadingTitle";
 
 const Khata = () => {
   const navigate = useNavigate();
@@ -42,6 +43,9 @@ const Khata = () => {
 
   //update customer
 useEffect(()=>{
+  if(!id){
+    return
+  }
    //find the customer id
    const foundCustomer = customerList.find((customer) => customer._id === id);
 
@@ -62,7 +66,13 @@ useEffect(()=>{
  const handleOnNewCustomer = async (e) => {
   e.preventDefault();
 
-  console.log(name, address, phoneNumber);
+  // validation
+  if(!name || !address || !phoneNumber){
+    toast.error("Please fill the details!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    return
+  }
 
   try {
     const data = await axios.post(
@@ -105,6 +115,13 @@ useEffect(()=>{
 
   //final update customer details
   const handleOnUpdateCustomer = async () => {
+    // validation 
+    if(!name || !address || phoneNumber){
+      toast.success("Please fill the details!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return
+    }
     try {
      const {data} =  await axios.put(
         `${server}/sell/${id}`,
@@ -145,19 +162,17 @@ useEffect(()=>{
   return (
     <div>
       <ToastContainer/>
-      <h2 className=" w-full p-1 px-4 text-white text-lg font-semibold mb-4 text-left uppercase bg-gray-900 rounded">
-        New Khata
-      </h2>
-      <div className="w-full">
+     <HeadingTitle title={"New Khata"}/>
+      <div className="w-full ">
         <div className="flex justify-center items-center mt-32">
-          <form className="bg-white w-96 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+          <form className="bg-slate-50 w-96 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4">
             <h1 className="text-center font-bold text-lg"> Create New Khata</h1>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="name"
               >
-                Name
+                Name <span className="text-red-600">*</span>
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -173,7 +188,7 @@ useEffect(()=>{
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="address"
               >
-                Address
+                Address <span className="text-red-600">*</span>
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -189,7 +204,7 @@ useEffect(()=>{
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="phoneNumber"
               >
-                Phone Number
+                Phone Number <span className="text-red-600">*</span>
               </label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

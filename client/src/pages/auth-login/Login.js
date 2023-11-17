@@ -7,6 +7,8 @@ import logo from "../../assets/logo.png";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../component/utilities/Loading";
+import { FaLeaf } from "react-icons/fa";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,10 +18,12 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
+    
     if (!email) {
       toast.error("Please Enter Email", {
         position: toast.POSITION.TOP_RIGHT,
@@ -30,17 +34,19 @@ const Login = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
+    setLoading(true)
 
     try {
       // You can add your login logic here
-      console.log("Email:", email);
-      console.log("Password:", password);
+      
 
       dispatch(login(email, password)).then(() => dispatch(loadUser()));
+      setLoading(false)
     } catch (error) {
       toast.error(error, {
         position: toast.POSITION.TOP_RIGHT,
       });
+      setLoading(false)
     }
   };
 
@@ -54,9 +60,15 @@ const Login = () => {
 
   return (
     <>
+      <ToastContainer />
+      {
+        loading && (
+          <Loading/>
+        )
+      }
       <div className="grid grid-cols-2">
         {/* brand panel  */}
-        <div className="col-span-1 bg-green-50">
+        <div className="col-span-1 bg-white">
           <div className="flex justify-center items-center mx-auto h-screen">
             <img src={logo} alt="logo" className="w-1/2" />
           </div>
@@ -111,12 +123,13 @@ const Login = () => {
                 <button
                   className="bg-green-900 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg   focus:outline-none focus:shadow-outline"
                   type="submit"
+                  disabled={loading}
                 >
                   Sign In
                 </button>
               </div>
             </form>
-            <ToastContainer />
+           
           </div>
         </div>
       </div>

@@ -275,3 +275,23 @@ export const getStockById = async(req, res)=>{
 }
 
 
+// get all stock historyupdate 
+export const getStockHistory = async(req, res)=>{
+  try {
+    //find all the task in db
+    const stocks = await StockHistory.find({  });
+
+    res.status(200).json({
+      success: true,
+      message: "all stocks History fetched successfully!",
+      stocks,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+

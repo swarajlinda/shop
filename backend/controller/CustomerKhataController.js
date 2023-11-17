@@ -38,7 +38,7 @@ export const newKhataInvoice = async (req, res) => {
 
       if (foundStock) {
         // Parse the productQnty to ensure it's a number
-        const productQntyNumber = parseInt(productQnty, 10);
+        const productQntyNumber = parseFloat(productQnty, 10);
 
         // Update the productQnty in the foundStock
         foundStock.productQnty -= productQntyNumber;

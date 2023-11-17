@@ -3,6 +3,7 @@ import KhataHolderCutomer from '../../component/admin-khata-holder/KhataHolderCu
 import axios from 'axios';
 import { server } from '../..';
 import { useNavigate } from 'react-router-dom';
+import HeadingTitle from '../../component/heading/HeadingTitle';
 
 const ManageKhata = () => {
 
@@ -86,17 +87,17 @@ const ManageKhata = () => {
   return (
     <div>
       <div className="w-full">
-        <h2 className=" w-full p-1 px-4 text-white text-lg font-semibold mb-4 text-left uppercase bg-gray-900 rounded">
-          Manage Customer Khata 
-        </h2>
+        <HeadingTitle title={" Manage Customer Khata "}/>
+       
       </div>
       {/* handle search  */}
-      <div className="flex items-center border border-gray-300 rounded-md p-2">
+      <div className="flex w-96 items-center border border-green-300 rounded-md p-1 mx-3">
+        <span className='text-xl'>&#128269;</span>
         <input
           type="text"
           onChange={(e) => handleSearch(e)}
           placeholder="Search Name..."
-          className="w-96 p-3 rounded-lg outline-none"
+          className="w-full p-3 rounded-lg outline-none"
         />
       </div>
       {/* end handle search  */}
