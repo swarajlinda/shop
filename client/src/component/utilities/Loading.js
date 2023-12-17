@@ -3,7 +3,7 @@ import loading from "../../assets/truck.gif"
 
 const Loading = () => {
   return (
-    <div className='flex justify-center items-center h-screen'>
+    <div className='flex justify-center items-center h-screen bg-white'>
         <img src={loading} alt="loaging"/>
     </div>
   )

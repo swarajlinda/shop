@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { server } from '../..';
+import { server } from "../..";
 
-const KhataHolderPurchaseHistory = ({userId, refresh}) => {
-    const [purchasedList, setPurchasedList] = useState([]);
+const KhataHolderPurchaseHistory = ({ userId, refresh }) => {
+  const [purchasedList, setPurchasedList] = useState([]);
   const [history, setHistory] = useState([]);
 
-  const handleOnSearchInput = (e) => {
+  const handleSearch = (e) => {
     const value = e.target.value.trim().toLowerCase();
 
     console.log("hello");
@@ -21,7 +21,7 @@ const KhataHolderPurchaseHistory = ({userId, refresh}) => {
       setPurchasedList(tempVar); // Update the array state with the filtered results
     }
   };
-  console.log(userId)
+  console.log(userId);
 
   //for showing data
   useEffect(() => {
@@ -37,30 +37,27 @@ const KhataHolderPurchaseHistory = ({userId, refresh}) => {
         console.log(e);
       });
   }, [refresh, userId]);
-  console.log(purchasedList)
+  console.log(purchasedList);
   return (
-    <div>
-        <div className="container mx-auto">
+    <div className="mx-10 mt-10">
+      <div className="container mx-auto mt-5">
         <div>
           <div>
-            <h1 className="text-2xl font-bold mb-4">Purchased History</h1>
+            <h1 className="text-2xl font-bold mb-4 text-green-600  uppercase">
+              Purchased History
+            </h1>
           </div>
-          <div className="flex items-center  border-2 border-blue-500 py-2">
+          <div className="w-96 flex items-center border border-green-300 rounded-md p-1 mx-1">
+            <span className="text-xl mx-1">&#128269;</span>
             <input
-              className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
               type="text"
-              placeholder="Search Details"
-              onChange={(e) => handleOnSearchInput(e)}
+              onChange={(e) => handleSearch(e)}
+              placeholder="Search Invoice Id..."
+              className="w-96 p-2 rounded-lg outline-none"
             />
-            {/* <button
-              className="flex-shrink-0 bg-blue-500 hover:bg-blue-700 text-sm text-white py-1 px-2 rounded"
-              type="button"
-            >
-              Search
-            </button> */}
           </div>
         </div>
-        <div>
+        <div className="mt-5">
           <table className="min-w-full">
             <thead>
               <tr className="bg-gray-200">
@@ -97,7 +94,9 @@ const KhataHolderPurchaseHistory = ({userId, refresh}) => {
                     <td className="py-2 px-4">{item.totalAmount}</td>
                     <td className="py-2 px-4">{item.paidAmount}</td>
                     <td className="py-2 px-4">{item.dueAmount}</td>
-                    <td className="py-2 px-4">{item.isPaymentDone? (<span>No</span>): (<span>Yes</span>)}</td>
+                    <td className="py-2 px-4">
+                      {item.isPaymentDone ? <span>No</span> : <span>Yes</span>}
+                    </td>
                     <td className="py-2 px-4">
                       {new Date(item.createdAt).toLocaleString()}
                     </td>
@@ -108,7 +107,7 @@ const KhataHolderPurchaseHistory = ({userId, refresh}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default KhataHolderPurchaseHistory
+export default KhataHolderPurchaseHistory;

@@ -69,12 +69,14 @@ const SaleMonthlyLineGraph = () => {
           dayWiseThisMonthSale[day].totalAmount += invoice.totalAmount;
           dayWiseThisMonthSale[day].totalProfit +=
             invoice.totalAmount - totalPurchasedAmount;
+            dayWiseThisMonthSale[day].totalDueAmount  += invoice.dueAmount
         } else {
           // If the day doesn't exist, create a new entry
           dayWiseThisMonthSale[day] = {
             day: `Date ${day}`,
             totalAmount: invoice.totalAmount,
             totalProfit: invoice.totalAmount - totalPurchasedAmount,
+            totalDueAmount: invoice.dueAmount
           };
         }
       }
@@ -101,6 +103,7 @@ const SaleMonthlyLineGraph = () => {
           <Legend />
           <Line type="monotone" dataKey="totalAmount" stroke="#8884d8" />
           <Line type="monotone" dataKey="totalProfit" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="totalDueAmount" stroke="#dc2626" />
         </LineChart>
       )}
     </div>

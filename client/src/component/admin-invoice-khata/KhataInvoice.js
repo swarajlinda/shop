@@ -156,7 +156,7 @@ const KhataInvoice = ({id}) => {
       itemPurchasedRate: itemQnty * itemPurchasedRate,
       stockId,
     };
-    console.log(data)
+    // console.log(data)
     addMultipleItems(data);
   };
 
@@ -339,14 +339,11 @@ const KhataInvoice = ({id}) => {
   <span>Date: ${formattedDate}</span>
   <span>Inv.ID: ${invoiceId}</span>
 </div>
-    <--<p>Customer Name: </p>-->
-      <h5>List of Items:</h5>
       <table>
         <thead>
           <tr>
             <th>Item</th>
             <th>Quantity</th>
-            <th>Price</th>
             <th>Amount</th>
           </tr>
         </thead>
@@ -358,7 +355,6 @@ const KhataInvoice = ({id}) => {
       <tr>
         <td>${item.itemName}</td>
         <td>${item.itemQnty}</td>
-        <td>${item.itemPrice}</td>
         <td>${item.itemTotalAmt}</td>
       </tr>
     `;

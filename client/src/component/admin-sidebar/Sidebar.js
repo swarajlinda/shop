@@ -138,7 +138,7 @@ const Sidebar = () => {
                     : "bg-white"
                 }`}
               >
-                new Khata
+                New Khata
               </button>
             </Link>
           </li>

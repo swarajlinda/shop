@@ -26,7 +26,7 @@ export const register = async (req, res) => {
     // Check if email exists
     const isUserExist = await User.findOne({ email });
     if (isUserExist) {
-      return res.status(409).json({
+      return res.status(400).json({
         success: false,
         message: "User already exists. Please login!",
       });
@@ -58,11 +58,9 @@ export const login = async (req, res) => {
     //fetch all data from body
     const { email, password } = req.body;
 
-    
-
     //validation
     if (!email || !password) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Please enter email and password",
       });
@@ -72,7 +70,7 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       console.log("working")
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Please register!",
       });
@@ -82,7 +80,7 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(404).json({
+      return res.status(400).json({
         success: false,
         message: "Please enterd correct password!",
       });

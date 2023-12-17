@@ -55,12 +55,13 @@ const SaleMonthlyKhataLine = () => {
       // Check if the invoice is for the current month
       if (invoiceMonth === currentMonth && invoiceYear === currentYear) {
         let totalPurchasedAmount = 0;
+        let totalDueAmount = 0
   
         for (let item = 0; item < invoice.itemList.length; item++) {
           // Accumulate the total purchased amount for each item
           totalPurchasedAmount += invoice.itemList[item].itemPurchasedRate;
         }
-  
+
         // Get the day of the month
         const day = invoiceDate.getDate();
   
@@ -69,12 +70,14 @@ const SaleMonthlyKhataLine = () => {
           dayWiseThisMonthSale[day].totalAmount += invoice.totalAmount;
           dayWiseThisMonthSale[day].totalProfit +=
             invoice.totalAmount - totalPurchasedAmount;
+            dayWiseThisMonthSale[day].totalDueAmount  += invoice.dueAmount
         } else {
           // If the day doesn't exist, create a new entry
           dayWiseThisMonthSale[day] = {
             day: `Date ${day}`,
             totalAmount: invoice.totalAmount,
             totalProfit: invoice.totalAmount - totalPurchasedAmount,
+            totalDueAmount: invoice.dueAmount
           };
         }
       }
@@ -104,6 +107,7 @@ const SaleMonthlyKhataLine = () => {
         <Legend />
         <Line type="monotone" dataKey="totalAmount" stroke="#8884d8" />
         <Line type="monotone" dataKey="totalProfit" stroke="#82ca9d" />
+        <Line type="monotone" dataKey="totalDueAmount" stroke="#dc2626" />
       </LineChart>
     )}
   </div>

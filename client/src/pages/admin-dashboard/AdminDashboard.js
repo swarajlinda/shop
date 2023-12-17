@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../component/admin-navbar/Navbar";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import {  Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../../component/admin-sidebar/Sidebar";
 import { useSelector } from "react-redux";
 

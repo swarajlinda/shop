@@ -140,7 +140,6 @@ const Invoice = () => {
 
   //add item
   const handleAddItem = () => {
-    // console.log(itemName, itemQnty, itemPrice);
     const data = {
       itemName,
       itemQnty,
@@ -164,7 +163,6 @@ const Invoice = () => {
 
 
   const removeItem = (index) => {
-    // console.log(index);
     const updatedItemList = [...formData.itemList];
     updatedItemList.splice(index, 1);
     setFormData({ ...formData, itemList: updatedItemList });
@@ -172,7 +170,6 @@ const Invoice = () => {
 
   //set item name handle
   const handleSelectChange = (selectedOption) => {
-    // console.log("selected Option", selectedOption);
     setItemName(selectedOption.value);
 
     for (let i = 0; i < stockList.length; i++) {
@@ -240,7 +237,7 @@ const Invoice = () => {
     day < 10 ? "0" + day : day
   }`;
 
-  console.log(formattedDate); // Output: YYYY-MM-DD
+  // console.log(formattedDate); // Output: YYYY-MM-DD 
 
   //  handle for print
   const handleOnPrint = () => {
@@ -334,14 +331,11 @@ const Invoice = () => {
   <span>Date: ${formattedDate}</span>
   <span>Inv.ID: ${invoiceId}</span>
 </div>
-<p>Customer Name: ${customerName}</p>
-      <h5>List of Items:</h5>
       <table>
         <thead>
           <tr>
             <th>Item</th>
             <th>Quantity</th>
-            <th>Price</th>
             <th>Amount</th>
           </tr>
         </thead>
@@ -352,8 +346,7 @@ const Invoice = () => {
       printableContent += `
       <tr>
         <td>${item.itemName}</td>
-        <td>${item.itemQnty}</td>
-        <td>${item.itemPrice}</td>
+        <td>${item.itemQnty}</td> 
         <td>${item.itemTotalAmt}</td>
       </tr>
     `;

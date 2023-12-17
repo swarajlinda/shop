@@ -132,7 +132,7 @@ export const updateStock = async (req, res) => {
     console.log(foundStockHistory.productName)
 
 
-    if (!foundStock ) {
+    if (!foundStock) {
       return res.status(404).json({
         success: false,
         message: "Stock not found",

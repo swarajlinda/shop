@@ -30,8 +30,6 @@ export const login = (email, password) => async (dispatch) => {
         payload: data.message 
     })
 
-
-
   } catch (error) {
     dispatch({
         type: "LOGIN_FAILURE",
