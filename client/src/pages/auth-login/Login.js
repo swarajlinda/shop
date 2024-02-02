@@ -21,6 +21,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+
+
+
+  useEffect(() => {
+    // Navigate to the dashboard if the user is authenticated
+    if (isAuthenticate) {
+      toast.success(`Welcome back ${user.name}`, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      navigate("../dashboard");
+    }
+  }, [isAuthenticate, user, navigate]);
+
+
   //vanta start
   const myRef = useRef(null);
   useEffect(() => {
@@ -38,7 +53,6 @@ const Login = () => {
   //vanta end
 
   //login
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true)
@@ -67,13 +81,13 @@ const Login = () => {
     }
   };
 
-  //  if user is exist then
-  if (isAuthenticate) {
-    toast.success(`Welcome back ${user.name}`, {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-    navigate("../dashboard");
-  }
+  // //  if user is exist then
+  // if (isAuthenticate) {
+  //   toast.success(`Welcome back ${user.name}`, {
+  //     position: toast.POSITION.TOP_RIGHT,
+  //   });
+  //   navigate("../dashboard");
+  // }
 
   return (
     <div ref={myRef}>

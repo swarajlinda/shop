@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { server } from '../../..';
 import {
-    BarChart,
-    Bar,
     XAxis,
     YAxis,
     LineChart,
@@ -42,10 +40,9 @@ const SaleMonthlyKhataLine = () => {
   // Initialize an object to store day-wise total amounts
   let dayWiseThisMonthSale = {};
 
-  if(khataIvoiceListHistory.length > 0){
+ 
     for (let i = 0; i < khataIvoiceListHistory.length; i++) {
       const invoice = khataIvoiceListHistory[i];
-      console.log(invoice)
   
       const invoiceDate = new Date(invoice.createdAt);
   
@@ -55,13 +52,13 @@ const SaleMonthlyKhataLine = () => {
       // Check if the invoice is for the current month
       if (invoiceMonth === currentMonth && invoiceYear === currentYear) {
         let totalPurchasedAmount = 0;
-        let totalDueAmount = 0
+       
   
         for (let item = 0; item < invoice.itemList.length; item++) {
           // Accumulate the total purchased amount for each item
           totalPurchasedAmount += invoice.itemList[item].itemPurchasedRate;
         }
-
+  
         // Get the day of the month
         const day = invoiceDate.getDate();
   
@@ -81,9 +78,11 @@ const SaleMonthlyKhataLine = () => {
           };
         }
       }
-    }
+    
+  
   }
 
+  
 //   console.log(khataIvoiceListHistory);
   console.log(dayWiseThisMonthSale)
 
@@ -93,24 +92,25 @@ const SaleMonthlyKhataLine = () => {
 
   return (
     <div>
-    {Object.keys(dayWiseThisMonthSale).length > 0 && (
-      <LineChart
-        width={590}
-        height={450}
-        data={Object.values(dayWiseThisMonthSale)}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="day" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="totalAmount" stroke="#8884d8" />
-        <Line type="monotone" dataKey="totalProfit" stroke="#82ca9d" />
-        <Line type="monotone" dataKey="totalDueAmount" stroke="#dc2626" />
-      </LineChart>
-    )}
-  </div>
+  {Object.keys(dayWiseThisMonthSale).length > 0 &&(
+    <LineChart
+      width={590}
+      height={450}
+      data={Object.values(dayWiseThisMonthSale)}
+      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="day" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="totalAmount" stroke="#8884d8" />
+      <Line type="monotone" dataKey="totalProfit" stroke="#82ca9d" />
+      <Line type="monotone" dataKey="totalDueAmount" stroke="#dc2626" />
+    </LineChart>
+  )}
+</div>
+
   )
 }
 
