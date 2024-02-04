@@ -9,7 +9,6 @@ export const newItems = async (req, res) => {
   try {
     //extract id from params and body
     const { id } = req.params;
-    console.log(id)
     const {invoiceId, itemList, totalAmount, paidAmount, dueAmount, paymentMode } =
       req.body;
     //validation
@@ -38,7 +37,10 @@ export const newItems = async (req, res) => {
         // Save the updated stock
         await foundStock.save();
       } else {
-        console.error(`Stock with stockId ${stockId} not found.`);
+        return res.status(400).json({
+          success: false,
+          message: `Stock with stockId ${stockId} not found.`
+        })
       }
     }
 
@@ -185,12 +187,10 @@ export const deleteItem = async (req, res) => {
 export const allItems =async(req, res)=>{
     try {
         const {id} = req.params
-        console.log(id)
     
         //find all the task in db
         const items = await ProductDetails.find({buyerId:id})
 
-        console.log(items)
        
       
        return res.status(200).json({

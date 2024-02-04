@@ -17,8 +17,6 @@ export const newStock = async (req, res) => {
       distributerName,
     } = req.body;
 
-    console.log("working")
-    console.log(req.body)
     //check the element
     if (
       !productName ||
@@ -37,7 +35,7 @@ export const newStock = async (req, res) => {
       });
     }
 
-    console.log("working 1")
+   
     //assign productId
     const min = 1000000; // Minimum 7-digit number
     const max = 9999999; // Maximum 7-digit number
@@ -48,7 +46,6 @@ export const newStock = async (req, res) => {
     //calculate wholesale amount
     const totalAmount = productQnty * kharidAmount;
 
-    console.log(productExpireDate)
 
     //create entry on db
     const stock = await Stock.create({
@@ -114,7 +111,6 @@ export const updateStock = async (req, res) => {
   } = req.body;
 
   try {
-    console.log("working")
     if (!id) {
       return res.status(400).json({
         success: false,
@@ -122,14 +118,12 @@ export const updateStock = async (req, res) => {
       });
     }
     
-    console.log("working2")
 
     // Find the stock and update
     const foundStock = await Stock.findById(id);
     const data = await StockHistory.find({stockId: foundStock.stockId});
 
     const foundStockHistory = data[0]
-    console.log(foundStockHistory.productName)
 
 
     if (!foundStock) {
@@ -139,7 +133,6 @@ export const updateStock = async (req, res) => {
       });
     }
 
-    console.log("working 4")
    
 
     // Update only if the fields exist in the request body
@@ -249,7 +242,6 @@ export const getAllStock = async (req, res) => {
 //get details from id
 export const getStockById = async(req, res)=>{
   const {id} = req.params
-  console.log(id)
   try {
     // check is valid or not 
     if(!id){

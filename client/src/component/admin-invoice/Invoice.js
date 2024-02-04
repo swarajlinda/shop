@@ -43,17 +43,23 @@ const Invoice = () => {
 
   //load data
   useEffect(() => {
-    axios
-      .get(`${server}/stock/mystock`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setStockList(res.data.stocks);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
+    const fetchStockData = async () => {
+      try {
+        const response = await axios.get(`${server}/stock/mystock`, {
+          withCredentials: true,
+        });
+  
+        setStockList(response.data.stocks);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    // Invoke the function to fetch stock data
+    fetchStockData();
+  
+  }, []); 
+  
 
   //generate custom invoice id
   useEffect(() => {
@@ -150,7 +156,7 @@ const Invoice = () => {
       itemPurchasedRate: itemQnty * itemPurchasedRate,
       stockId,
     };
-    console.log(data)
+    // console.log(data)
     addMultipleItems(data);
   };
 

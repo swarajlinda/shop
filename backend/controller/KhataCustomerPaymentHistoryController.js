@@ -5,11 +5,9 @@ import { BuyerDetails } from "../model/buyerDetails.js"
 export const khataCustomerPaymentHistory = async(req, res)=>{
     const {id} = req.params 
 
-    console.log(id)
-
+    
     const {paymentType, lastPaymentAmount} = req.body 
 
-    console.log(paymentType, lastPaymentAmount)
 
     try {
         // validation
@@ -27,7 +25,6 @@ export const khataCustomerPaymentHistory = async(req, res)=>{
             })
         }
 
-        console.log("woking")
 
         //fetch the data from id and update their dueAmount first
         const foundUser = await BuyerDetails.findById(id)
@@ -35,18 +32,14 @@ export const khataCustomerPaymentHistory = async(req, res)=>{
         // console.log(foundUser)
         let dueAmount = 0
 
-        console.log(foundUser.totalDueAmount)
-        console.log(lastPaymentAmount)
-        console.log(lastPaymentAmount <= foundUser.totalDueAmount)
+     
 
 
         if(lastPaymentAmount <= foundUser.totalDueAmount){
             //update due amount 
             dueAmount = foundUser.totalDueAmount - lastPaymentAmount
-            console.log(dueAmount)
             // update the is payment done or not 
             dueAmount === 0 ? foundUser.isPaymentDone = true : foundUser.isPaymentDone = false
-            console.log(dueAmount)
 
         }else{
             return res.status(400).json({

@@ -7,7 +7,6 @@ import { Stock } from "../model/stock.js";
 export const newKhataInvoice = async (req, res) => {
   //extract id from params and body
   const { id } = req.params;
-  console.log(id);
 
   try {
     const {
@@ -46,7 +45,10 @@ export const newKhataInvoice = async (req, res) => {
         // Save the updated stock
         await foundStock.save();
       } else {
-        console.error(`Stock with stockId ${stockId} not found.`);
+        return res.staus(404).status({
+          success:false,
+          message: `Stock with stockId ${stockId} not found.`
+        })
       }
     }
 
@@ -73,14 +75,12 @@ export const newKhataInvoice = async (req, res) => {
         message: "user not found",
       });
     }
-    console.log("working");
 
     // search previous dueAmount and and latest one
 
     // console.log(user.totalDueAmount)
 
     const dueAmountOfBuyer = dueAmount + user.totalDueAmount;
-    console.log(dueAmountOfBuyer);
 
     const totalAmountOfBuyer = totalAmount + user.totalAmount;
 
@@ -88,7 +88,6 @@ export const newKhataInvoice = async (req, res) => {
     user.totalAmount = totalAmountOfBuyer;
     user.save();
 
-    console.log(user);
 
     // // Create entry in the database
     const khataInvoice = await KhataInvoices.create({
@@ -102,44 +101,7 @@ export const newKhataInvoice = async (req, res) => {
       buyerId: user._id,
     });
 
-    //find invoice
-    // const foundInvoice = await KhataInvoices.findOne({ invoiceId: invoiceId });
-
-    // if (foundInvoice) {
-    //   console.log("working1")
-    //   console.log(foundInvoice.paidAmount)
-    //   console.log(foundInvoice.totalAmount)
-
-    //   // Check if paidAmount is equal to totalAmount
-    //   if (foundInvoice.paidAmount == foundInvoice.totalAmount) {
-    //     // Update the isPaymentDone
-    //     foundInvoice.isPaymentDone = true;
-
-    //     console.log("working2")
-    //     console.log(foundInvoice.isPaymentDone)
-    //     // Save the changes
-    //     await foundInvoice.save();
-
-    //     return res.status(200).json({
-    //       success: true,
-    //       foundInvoice,
-    //       message: "Invoice updated successfully. No due amount.",
-    //     });
-
-    //   } else {
-    //     return res.status(200).json({
-    //       success: true,
-    //       khataInvoice,
-    //       message: "Invoice added successfully!",
-    //     });
-    //   }
-    // } else {
-    //   return res.status(200).json({
-    //     success: true,
-    //     khataInvoice,
-    //     message: "Invoice added successfully! but Invoice not found",
-    //   });
-    // }
+  
 
     return res.status(200).json({
       success: true,
@@ -283,7 +245,6 @@ export const allInvoiceFromKhata = async (req, res) => {
 export const allIKhataInvoice = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     //find all the task in db
     const khataInvoice = await KhataInvoices.find({ buyerId: id });
@@ -307,7 +268,6 @@ export const allIKhataInvoice = async (req, res) => {
 
 export const invoiceHistory = async(req, res)=>{
   try {
-    console.log("hello")
     //find all the task in db
     const khataInvoices = await KhataInvoices.find({});
 

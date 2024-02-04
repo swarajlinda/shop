@@ -45,17 +45,23 @@ const KhataInvoice = ({id}) => {
 
   //load data
   useEffect(() => {
-    axios
-      .get(`${server}/stock/mystock`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setStockList(res.data.stocks);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    const fetchStockData = async () => {
+      try {
+        const response = await axios.get(`${server}/stock/mystock`, {
+          withCredentials: true,
+        });
+  
+        setStockList(response.data.stocks);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    // Invoke the function to fetch stock data
+    fetchStockData();
+  
   }, [refresh]);
+  
 
   //generate custom invoice id
   useEffect(() => {
@@ -88,7 +94,6 @@ const KhataInvoice = ({id}) => {
       totalAmount,
       dueAmount
     };
-    console.log(data)
 
     //validation
     if (formData.itemList.length > 0) {
@@ -167,7 +172,6 @@ const KhataInvoice = ({id}) => {
     }));
   };
 
-  console.log(formData.itemList);
 
   const removeItem = (index) => {
     // console.log(index);
@@ -245,7 +249,6 @@ const KhataInvoice = ({id}) => {
     day < 10 ? "0" + day : day
   }`;
 
-  console.log(paymentMode); 
 
   //  handle for print
   const handleOnPrint = () => {

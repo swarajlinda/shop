@@ -31,8 +31,7 @@ export const newInvoice = async (req, res) => {
     if (paidAmount <= totalAmount) {
       dueAmt = totalAmount - paidAmount;
     }
-    console.log("working");
-    // console.log(dueAmt);
+    
 
     //update stock
     for (const item of itemList) {
@@ -52,7 +51,10 @@ export const newInvoice = async (req, res) => {
         // Save the updated stock
         await foundStock.save();
       } else {
-        console.error(`Stock with stockId ${stockId} not found.`);
+        return res.status(400).staus({
+          success:false,
+          message:`Stock with stockId ${stockId} not found.`
+        })
       }
     }
 
@@ -75,17 +77,10 @@ export const newInvoice = async (req, res) => {
     });
 
     if (foundInvoice) {
-      console.log("working1");
-      console.log(foundInvoice.paidAmount);
-      console.log(foundInvoice.totalAmount);
-
       // Check if paidAmount is equal to totalAmount
       if (foundInvoice.paidAmount == foundInvoice.totalAmount) {
         // Update the isPaymentDone
         foundInvoice.isPaymentDone = true;
-
-        console.log("working2");
-        console.log(foundInvoice.isPaymentDone);
         // Save the changes
         await foundInvoice.save();
 

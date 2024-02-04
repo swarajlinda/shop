@@ -69,7 +69,6 @@ export const login = async (req, res) => {
     //check email exist or not
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
-      console.log("working")
       return res.status(400).json({
         success: false,
         message: "Please register!",
@@ -98,7 +97,6 @@ export const login = async (req, res) => {
 
 //handle for get user details
 export const getMyProfile = (req, res) => {
-  console.log("working1")
   try {
     res.status(200).json({
       success: true,

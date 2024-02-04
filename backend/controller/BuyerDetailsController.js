@@ -4,8 +4,7 @@ import { BuyerDetails } from "../model/buyerDetails.js";
 //new buyer details
 export const newBuyerDetails = async (req, res) => {
   try {
-    console.log("working1");
-    // extract details
+   
     const {
       name,
       address,
@@ -15,7 +14,7 @@ export const newBuyerDetails = async (req, res) => {
       totalDueAmount,
     } = req.body;
 
-    console.log(req.body);
+   
 
     //check the details or validation
     if (!name || !address || !phoneNumber) {
@@ -25,7 +24,6 @@ export const newBuyerDetails = async (req, res) => {
       });
     }
 
-    console.log("working2");
 
     //create entry on db
     const data = await BuyerDetails.create({
@@ -44,6 +42,10 @@ export const newBuyerDetails = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      success:false,
+      message: error
+    })
   }
 };
 
@@ -57,7 +59,10 @@ export const getAllBuyer = async (req, res) => {
       message: "data fetched successfully!",
     });
   } catch (error) {
-    console.log(error.res.message);
+    return res.status(500).json({
+      success:false,
+      message: error
+    })
   }
 };
 
@@ -106,7 +111,7 @@ export const updateBuyersDetails = async (req, res) => {
     // find the user
     const user = await BuyerDetails.findById(id);
 
-    console.log(id);
+   
 
     if (!user) {
       return res.status(204).json({
@@ -119,7 +124,6 @@ export const updateBuyersDetails = async (req, res) => {
     const buyerAddress = !address ? user.address : address;
     const phone = !phoneNumber ? user.phoneNumber : phoneNumber;
 
-    console.log(buyerAddress, buyerName, phone);
 
     // Update the fields
     if (buyerName) user.name = buyerName;
@@ -144,7 +148,6 @@ export const updateBuyersDetails = async (req, res) => {
 export const customerDetails = async(req, res) => {
   //get id from params
   const { id } = req.params;
-  console.log(id);
 
   try {
     //validation
